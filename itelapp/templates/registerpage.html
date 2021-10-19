@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+   Account Register 
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container-fluid m-5">
+        <div class="row">
+            <div class="col-12 col-sm-3 col-lg-3"></div>
+            <div class="col-12 col-sm-6 col-lg-6">
+                <form method="POST" action="{% url 'registerpage' %}" style="width: 500px;">
+                {% csrf_token %}
+                    <div class="form-group">
+                    {{regform.as_p}}
+                    <small id="textHelp" class="form-text text-muted">Create a free account</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            <div class="col-12 col-sm-3 col-lg-3"></div>
+            </div>
+    </div>
+{% endblock content %}

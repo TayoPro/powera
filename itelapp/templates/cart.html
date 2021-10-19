@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+
+{% block title %}  Cart Page {% endblock title %}  
+
+{% block content %}
+    <div class="container-fluid m-5">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-lg-2"></div>
+            <div class="col-12 col-sm-6 col-lg-8">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Delete</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">$Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Adjust Quantity</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if basket %}
+                            {% for item in basket %}
+                                <tr>
+                                    <td>
+                                        <form method="POST" action="{% url 'deleteitem' %}">  
+                                        {% csrf_token %}
+                                            <input type="hidden" name="delitem" value="{{item.id}}">      
+                                            <button type="submit"  class="btn btn-danger">&times;</button>
+                                        </form>
+                                    </td>
+                                    <th scope="row">{{item.product.title}}</th>
+                                    <td><img src="{{item.product.image.url}}" width="60px"></td>
+                                    <td>{{item.product.price}}</td>
+                                    <td>
+                                        {{item.quantity}}
+                                        <!-- <input type="number" style="width: 40px;" value="{{item.quantity}}" min="{{item.product.min_quant}}" max="{{item.product.max_quant}}"> -->
+                                    </td>
+                                    <td>
+                                        <form method="POST" action="{% url 'increase' %}"> 
+                                        {% csrf_token %}
+                                        <input type="number"  name="additem" style="width: 40px;" value="{{item.quantity}}" min="{{item.product.min_quant}}" max="{{item.product.max_quant}}">
+                                            <input type="hidden" name="itemid" value="{{item.id}}">      
+                                            <button type="submit" class="btn btn-primary">&times;</button>
+                                        </form>
+                                    </td>
+                                    <td>{{item.product.price|mul:item.quantity}}</td>
+                                </tr>                    
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Subtotal:{{subtotal}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Vat:{{vat}}</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total:{{total}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>   
+                            <td></td>
+                            <td><a href="{% url 'checkout' %}">Checkout</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-2"></div>
+        </div>
+    </div>
+{% endblock content %}

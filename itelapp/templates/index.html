@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+  Home
+{% endblock title %}
+
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Categories</h1>
+        <div class="row">
+            {% if categories %}
+                {% for c in categories %}
+                    <div class="col-12 col-sm-6 col-lg-3 w-25 mt-3 mb-3">
+                        <div class="card">
+                            <img src="{{c.image.url}}" class="card-img-top">
+                            <div class="card-body">
+                            <h5 class="card-title"><a class="dropdown-item" href="{% url 'category' c.id %}">{{c.name}}</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <!--  -->
+    <div class="container-fluid mt-5 mb-5">
+        <h1>Best Sellers</h1>
+        <div class="row">
+            {% if bseller %}
+                {% for item in bseller %}
+                    <div class="col-12 col-sm-6 col-lg-3 w-25">
+                        <div class="card">
+                            <a href="{% url 'products' %}"><img src="{{item.image.url}}" class="card-img-top"></a>
+                            <div class="card-body">
+                            <h5 class="card-title">{{item.category}}</h5>
+                            <p class="card-text">${{item.price}}</p>
+                            <a href="{% url 'products' %}">{{item.title}}</a>
+                            </div>
+                        </div>
+                    </div> 
+                {% endfor %}
+            {% endif %}     
+        </div>
+    </div>
+    <!--  -->
+    <div class="container-fluid mt-5 mb-5">
+        <h1>Latest</h1>
+        <div class="row">
+            {% if latest %}
+                {% for item in latest %}
+                <div class="col-12 col-sm-6 col-lg-3 w-25">
+                    <div class="card">
+                        <a href="{% url 'products' %}"><img src="{{item.image.url}}" class="card-img-top"></a>
+                        <div class="card-body">
+                        <h5 class="card-title">{{item.category}}</h5>
+                        <p class="card-text">${{item.price}}</p>
+                        <a href="{% url 'products' %}">{{item.title}}</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <!--  -->
+{% endblock content %}

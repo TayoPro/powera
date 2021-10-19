@@ -1,0 +1,13 @@
+#header{
+    background: lightpink;
+}
+
+#branding h1{
+    color: white;
+}
+.submit-row {
+    background: lightgreen;
+}
+.submit-row .button, input[type=submit], input[type=button] {
+    background: lightpink; 
+}

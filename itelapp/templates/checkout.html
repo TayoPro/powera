@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load mathfilters %}
+
+{% block title %}  Checkout Page {% endblock title %}  
+
+{% block content %}
+    <div class="container-fluid m-5">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-lg-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">$Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if basket %}
+                            {% for item in basket %}
+                                <tr>
+                                    <th scope="row">{{item.product.title}}</th>
+                                    <td><img src="{{item.product.image.url}}" width="60px"></td>
+                                    <td>{{item.product.price}}</td>
+                                    <td>
+                                        {{item.quantity}}
+                                    </td>
+                                    <td>{{item.product.price|mul:item.quantity}}</td>
+                                </tr>                    
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                    <tbody>                     
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>Total:{{total}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-6">
+                <form method="POST" action="{% url 'sendorder' %}" style="width: 500px;">
+                {% csrf_token %}
+                    <div class="form-group">
+                    <input type="text" name="first_name" placeholder="First Name" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+                    </div>
+                    <div class="form-group">
+                    <input type="text" name="last_name" placeholder="Last Name" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+                    </div>
+                    <div class="form-group">
+                    <input type="text" name="phone" placeholder="Phone Number" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+                    </div>
+                    <div class="form-group">
+                    <input type="text" name="address" placeholder="Address" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+                    </div>
+                    <div class="form-group">
+                    <input type="text" name="state" placeholder="State" class="form-control" id="exampleInputText1" aria-describedby="textHelp">
+                    </div>
+                    <div class="form-group">
+                    <input type="hidden" name="price" value="{{total}}" id="exampleInputText1" aria-describedby="textHelp">
+                    <input type="hidden" name="bag" value="{{order_code}}" id="exampleInputText1" aria-describedby="textHelp">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
